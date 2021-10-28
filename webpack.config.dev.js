@@ -7,6 +7,7 @@ const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const { clear } = require('console');
 const Dotenv = require('dotenv-webpack');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
 module.exports =
 {
@@ -19,7 +20,8 @@ module.exports =
     assetModuleFilename: 'assets/images/[hash][ext][query]'
   },
   mode: 'development',
-  watch: true,
+  // watch: true,
+  devtool: 'source-map',
   resolve:
   {
     extensions: ['.js'],
@@ -89,5 +91,16 @@ module.exports =
       ]
     }),
     new Dotenv(),
+    new BundleAnalyzerPlugin(),
   ],
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    compress: true,
+    historyApiFallback: true,
+    port: 3009,
+    open: true,
+  },
+
 }
